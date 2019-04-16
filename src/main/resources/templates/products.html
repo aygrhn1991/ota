@@ -1,0 +1,77 @@
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" ng-model="model.key">
+        </div>
+        <button class="layui-btn" ng-click="loadData(true)">搜索</button>
+        <button class="layui-btn" ng-click="init()">重置</button>
+    </div>
+</div>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>产品名称</th>
+        <th>备注</th>
+        <th>添加时间</th>
+        <th>
+            <button class="layui-btn layui-btn-sm" ng-click="openAddModal()">新增</button>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="l in list">
+        <td>{{l.t_id}}</td>
+        <td>{{l.t_name}}</td>
+        <td>{{l.t_remarks}}</td>
+        <td>{{l.t_systime|date:'yyyy-MM-dd'}}</td>
+        <td>
+            <button class="layui-btn layui-btn-sm" ng-click="openEditModal()">编辑</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm" ng-click="delete()">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div id="page"></div>
+<div>
+    <form class="layui-form" id="addModal">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <form class="layui-form" id="editModal">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
