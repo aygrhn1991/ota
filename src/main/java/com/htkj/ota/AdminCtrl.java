@@ -1,12 +1,15 @@
 package com.htkj.ota;
 
+import com.htkj.ota.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +64,30 @@ public class AdminCtrl {
         int count = this.jdbc.queryForObject(sql1, Integer.class);
         List<Map<String, Object>> data = this.jdbc.queryForList(sql2);
         return new DataModel(count, data);
+    }
+
+    @RequestMapping("/addProduct")
+    @ResponseBody
+    public boolean addProduct(@RequestBody Product model) {
+        String sql = "insert into t_products(t_name, t_remarks, t_systime) values (?,?,?)";
+        int count = this.jdbc.update(sql, new Object[]{model.t_name, model.t_remarks, new Date().getTime()});
+        return count == 1;
+    }
+
+    @RequestMapping("/editProduct")
+    @ResponseBody
+    public boolean editProduct(@RequestBody Product model) {
+        String sql = "update t_products set t_name=?,t_remarks=? where t_id=?";
+        int count = this.jdbc.update(sql, new Object[]{model.t_name, model.t_remarks, model.t_id});
+        return count == 1;
+    }
+
+    @RequestMapping("/deleteProduct/{id}")
+    @ResponseBody
+    public boolean deleteProduct(@PathVariable("id") int id) {
+        String sql = "delete from t_products where t_id=?";
+        int count = this.jdbc.update(sql, new Object[]{id});
+        return count == 1;
     }
 
 }

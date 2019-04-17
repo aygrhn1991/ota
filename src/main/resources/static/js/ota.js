@@ -33,7 +33,7 @@ app.controller('productsCtl', function ($scope, $http) {
         $http.post('/admin/getProducts/' +
             $scope.pageModel.pageIndex + '/' +
             $scope.pageModel.pageSize + '/' +
-            $scope.model.key).success(function (d) {
+            $scope.searchModel.key).success(function (d) {
             $scope.list = d.data;
             if (reset) {
                 $scope.makePage($scope.pageModel.pageSize, d.count);
@@ -54,34 +54,80 @@ app.controller('productsCtl', function ($scope, $http) {
         });
     };
     $scope.openAddModal = function () {
+        $scope.addModel.t_name = null;
+        $scope.addModel.t_remarks = null;
         layer.open({
             type: 1,
-            area:'auto',
             shade: 0,
-            content: $('#addModal')
+            area: '500px',
+            btn: ['保存'],
+            content: $('#addModal'),
+            yes: function (index, layero) {
+                if ($scope.addModel.t_name === null || $scope.addModel.t_name === '') {
+                    alert('请填写产品名称');
+                    return;
+                }
+                $http.post('/admin/addProduct/', $scope.addModel).success(function (d) {
+                    if (d) {
+                        alert('保存成功');
+                        $scope.loadData(true);
+                        layer.close(index);
+                    } else {
+                        alert('保存失败');
+                    }
+                });
+            }
         });
     };
-    $scope.add=function(){
-        console.log('add');
-    };
-    $scope.openEditModal = function () {
+    $scope.openEditModal = function (e) {
+        $scope.editModel = e;
         layer.open({
             type: 1,
-            area:'auto',
             shade: 0,
-            content: $('#editModal')
+            area: '500px',
+            btn: ['保存'],
+            content: $('#editModal'),
+            yes: function (index, layero) {
+                if ($scope.editModel.t_name === null || $scope.editModel.t_name === '') {
+                    alert('请填写产品名称');
+                    return;
+                }
+                $http.post('/admin/editProduct/', $scope.editModel).success(function (d) {
+                    if (d) {
+                        alert('保存成功');
+                        $scope.loadData(true);
+                        layer.close(index);
+                    } else {
+                        alert('保存失败');
+                    }
+                });
+            }
         });
     };
-    $scope.edit=function(){
-        console.log('edit');
+    $scope.delete = function (e) {
+        layer.confirm('确定删除？', function (index) {
+            $http.post('/admin/deleteProduct/' + e.t_id).success(function (d) {
+                if (d) {
+                    alert('删除成功');
+                    $scope.loadData(true);
+                    layer.close(index);
+                } else {
+                    alert('删除失败');
+                }
+            })
+        });
     };
     $scope.init = function () {
         $scope.pageModel = {
             pageIndex: 1,
             pageSize: 10
         };
-        $scope.model = {
+        $scope.searchModel = {
             key: ''
+        };
+        $scope.addModel = {
+            t_name: null,
+            t_remarks: null
         };
         $scope.loadData(true);
     };

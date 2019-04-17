@@ -2,7 +2,7 @@
     <div class="layui-inline">
         <label class="layui-form-label">产品名称</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" ng-model="model.key">
+            <input type="text" class="layui-input" ng-model="searchModel.key">
         </div>
         <button class="layui-btn" ng-click="loadData(true)">搜索</button>
         <button class="layui-btn" ng-click="init()">重置</button>
@@ -27,51 +27,44 @@
         <td>{{l.t_remarks}}</td>
         <td>{{l.t_systime|date:'yyyy-MM-dd'}}</td>
         <td>
-            <button class="layui-btn layui-btn-sm" ng-click="openEditModal()">编辑</button>
-            <button class="layui-btn layui-btn-danger layui-btn-sm" ng-click="delete()">删除</button>
+            <button class="layui-btn layui-btn-sm" ng-click="openEditModal(l)">编辑</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm" ng-click="delete(l)">删除</button>
         </td>
     </tr>
     </tbody>
 </table>
 <div id="page"></div>
-<div>
-    <form class="layui-form" id="addModal">
-        <div class="layui-form-item">
-            <label class="layui-form-label">产品名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input">
+<div class="modal-box">
+    <div class="modal" id="addModal">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">产品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" ng-model="addModel.t_name">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea"></textarea>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" ng-model="addModel.t_remarks"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </form>
+    </div>
+    <div class="modal" id="editModal">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">产品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" ng-model="editModel.t_name">
+                </div>
             </div>
-        </div>
-    </form>
-    <form class="layui-form" id="editModal">
-        <div class="layui-form-item">
-            <label class="layui-form-label">产品名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" ng-model="editModel.t_remarks"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea"></textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn">立即提交</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
