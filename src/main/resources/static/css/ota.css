@@ -7,3 +7,7 @@
 .modal {
     padding: 20px;
 }
+
+select {
+    width: 100%;
+}
