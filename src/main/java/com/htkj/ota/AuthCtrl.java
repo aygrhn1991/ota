@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 public class AuthCtrl {
 
     @Value("${auth.account}")
-    private String account;
+    private String authAccount;
     @Value("${auth.password}")
-    private String password;
+    private String authPassword;
 
     @RequestMapping("/login")
     public String login() {
@@ -27,9 +27,9 @@ public class AuthCtrl {
     @RequestMapping("/auth")
     @ResponseBody
     public boolean auth(@RequestParam("account") String account,
-                         @RequestParam("password") String password,
-                         HttpServletRequest request) {
-        if (account.equals(this.account) && password.equals(this.password)) {
+                        @RequestParam("password") String password,
+                        HttpServletRequest request) {
+        if (account.equals(this.authAccount) && password.equals(this.authPassword)) {
             HttpSession session = request.getSession();
             session.setAttribute("auth", true);
             return true;

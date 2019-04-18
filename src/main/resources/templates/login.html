@@ -3,34 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>登陆</title>
-    <script src="/ota/jquery/jquery.js"></script>
+    <script src="/ota/angularjs/angular.js"></script>
+    <script src="/ota/angularjs/angular-route.js"></script>
+    <script src="/ota/js/ota.js"></script>
 </head>
-<body>
-<input type="text" id="account">
-<input type="password" id="password">
-<button id="btn">login</button>
-<script>
-    $(function () {
-        $('#btn').click(function () {
-            $.ajax({
-                type: "GET",
-                url: '/ota/auth/auth',
-                dataType: "json",
-                data: {
-                    account: $('#account').val(),
-                    password: $('#password').val()
-                },
-                success: function (d) {
-                    if (d) {
-                        window.location.href = '/ota/admin/index';
-                    } else {
-                        alert('登陆失败');
-                    }
-                }
-            });
-        });
-    });
-
-</script>
+<body ng-app="app" ng-controller="loginCtrl">
+<input type="text" ng-model="authModel.account">
+<input type="password" ng-model="authModel.password">
+<button ng-click="auth()">auth</button>
 </body>
 </html>
