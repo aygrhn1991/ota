@@ -20,8 +20,8 @@
     <tr>
         <th>ID</th>
         <th>产品名称</th>
-        <th>设备编号</th>
         <th>当前版本</th>
+        <th>设备编号</th>
         <th>备注</th>
         <th>添加时间</th>
         <th>
@@ -33,10 +33,10 @@
     <tr ng-repeat="l in list">
         <td>{{l.t_id}}</td>
         <td>{{l.product_name}}</td>
+        <td>{{l.software_version}}</td>
         <td>{{l.t_code}}</td>
-        <td>{{l.t_current_version}}</td>
         <td>{{l.t_remarks}}</td>
-        <td>{{l.t_systime|date:'yyyy-MM-dd'}}</td>
+        <td>{{l.t_systime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>
             <button class="layui-btn layui-btn-sm" ng-click="openEditModal(l)">编辑</button>
             <button class="layui-btn layui-btn-danger layui-btn-sm" ng-click="delete(l)">删除</button>
@@ -51,19 +51,20 @@
             <label class="layui-form-label">产品名称</label>
             <div class="layui-input-block">
                 <select class="layui-select" ng-options="p.t_id as p.t_name for p in productList"
-                        ng-model="addModel.t_product_id"></select>
+                        ng-model="addModel.t_product_id" ng-change="addModelProductChange()"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前版本</label>
+            <div class="layui-input-block">
+                <select class="layui-select" ng-options="s.t_id as s.t_version for s in softwareList"
+                        ng-model="addModel.t_software_id"></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" ng-model="addModel.t_code">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">当前版本</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" ng-model="addModel.t_current_version">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -78,19 +79,20 @@
             <label class="layui-form-label">产品名称</label>
             <div class="layui-input-block">
                 <select class="layui-select" ng-options="p.t_id as p.t_name for p in productList"
-                        ng-model="editModel.t_product_id"></select>
+                        ng-model="editModel.t_product_id" ng-change="editModelProductChange()"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前版本</label>
+            <div class="layui-input-block">
+                <select class="layui-select" ng-options="s.t_id as s.t_version for s in softwareList"
+                        ng-model="editModel.t_software_id"></select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">设备编号</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" ng-model="editModel.t_code">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">当前版本</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" ng-model="editModel.t_current_version">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

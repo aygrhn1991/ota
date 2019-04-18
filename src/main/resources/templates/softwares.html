@@ -1,1 +1,99 @@
-softwares
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-inline">
+            <select class="layui-select" ng-options="p.t_id as p.t_name for p in productList"
+                    ng-model="searchModel.productId"></select>
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">软件版本</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" ng-model="searchModel.key">
+        </div>
+        <button class="layui-btn" ng-click="loadData(true)">搜索</button>
+        <button class="layui-btn" ng-click="init()">重置</button>
+    </div>
+</div>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>产品名称</th>
+        <th>文件名称</th>
+        <th>文件大小</th>
+        <th>软件版本</th>
+        <th>备注</th>
+        <th>添加时间</th>
+        <th>
+            <button class="layui-btn layui-btn-sm" ng-click="openAddModal()">新增</button>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="l in list">
+        <td>{{l.t_id}}</td>
+        <td>{{l.product_name}}</td>
+        <td>{{l.t_file_name}}</td>
+        <td>{{l.t_file_size/1024|number:2}}kb</td>
+        <td>{{l.t_version}}</td>
+        <td>{{l.t_remarks}}</td>
+        <td>{{l.t_systime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>
+            <button class="layui-btn layui-btn-sm" ng-click="openEditModal(l)">编辑</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm" ng-click="delete(l)">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div id="page"></div>
+<div class="modal-box">
+    <div class="modal" id="addModal">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+                <select class="layui-select" ng-options="p.t_id as p.t_name for p in productList"
+                        ng-model="addModel.t_product_id"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">软件版本</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" ng-model="addModel.t_version">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-block">
+                <input type="file" id="file" style="margin-top:6px;">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" ng-model="addModel.t_remarks"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="editModal">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+                <select class="layui-select" ng-options="p.t_id as p.t_name for p in productList"
+                        ng-model="editModel.t_product_id"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">软件版本</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" ng-model="editModel.t_version">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" ng-model="editModel.t_remarks"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
