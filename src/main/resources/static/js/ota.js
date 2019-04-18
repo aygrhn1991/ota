@@ -1,20 +1,21 @@
+window.context = '/ota';
 var app = angular.module('app', ['ngRoute']);
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/products', {
-            templateUrl: '/admin/products',
+            templateUrl: context + '/admin/products',
             controller: 'productsCtl'
         })
         .when('/devices', {
-            templateUrl: '/admin/devices',
+            templateUrl: context + '/admin/devices',
             controller: 'devicesCtl'
         })
         .when('/softwares', {
-            templateUrl: '/admin/softwares',
+            templateUrl: context + '/admin/softwares',
             controller: 'softwaresCtl'
         })
         .when('/logs', {
-            templateUrl: '/admin/logs',
+            templateUrl: context + '/admin/logs',
             controller: 'logsCtl'
         })
         .when('/list/:id', {
@@ -30,7 +31,7 @@ app.controller('productsCtl', function ($scope, $http) {
         if (reset) {
             $scope.pageModel.pageIndex = 1;
         }
-        $http.post('/admin/getProducts/' +
+        $http.post(context + '/admin/getProducts/' +
             $scope.pageModel.pageIndex + '/' +
             $scope.pageModel.pageSize + '/' +
             $scope.searchModel.key).success(function (d) {
@@ -67,7 +68,7 @@ app.controller('productsCtl', function ($scope, $http) {
                     alert('请填写产品名称');
                     return;
                 }
-                $http.post('/admin/addProduct/', $scope.addModel).success(function (d) {
+                $http.post(context + '/admin/addProduct/', $scope.addModel).success(function (d) {
                     if (d) {
                         alert('保存成功');
                         $scope.loadData(true);
@@ -92,7 +93,7 @@ app.controller('productsCtl', function ($scope, $http) {
                     alert('请填写产品名称');
                     return;
                 }
-                $http.post('/admin/editProduct/', $scope.editModel).success(function (d) {
+                $http.post(context + '/admin/editProduct/', $scope.editModel).success(function (d) {
                     if (d) {
                         alert('保存成功');
                         $scope.loadData(true);
@@ -109,7 +110,7 @@ app.controller('productsCtl', function ($scope, $http) {
     };
     $scope.delete = function (e) {
         layer.confirm('确定删除？', function (index) {
-            $http.post('/admin/deleteProduct/' + e.t_id).success(function (d) {
+            $http.post(context + '/admin/deleteProduct/' + e.t_id).success(function (d) {
                 if (d) {
                     alert('删除成功');
                     $scope.loadData(true);
@@ -141,7 +142,7 @@ app.controller('devicesCtl', function ($scope, $http) {
         if (reset) {
             $scope.pageModel.pageIndex = 1;
         }
-        $http.post('/admin/getDevices/' +
+        $http.post(context + '/admin/getDevices/' +
             $scope.pageModel.pageIndex + '/' +
             $scope.pageModel.pageSize + '/' +
             $scope.searchModel.productId + '/' +
@@ -189,7 +190,7 @@ app.controller('devicesCtl', function ($scope, $http) {
                     alert('请填写设备编号');
                     return;
                 }
-                $http.post('/admin/addDevice/', $scope.addModel).success(function (d) {
+                $http.post(context + '/admin/addDevice/', $scope.addModel).success(function (d) {
                     if (d) {
                         alert('保存成功');
                         $scope.loadData(true);
@@ -211,7 +212,6 @@ app.controller('devicesCtl', function ($scope, $http) {
             btn: ['保存'],
             content: $('#editModal'),
             yes: function (index, layero) {
-                console.log($scope.editModel.t_software_id)
                 if ($scope.editModel.t_product_id === null || $scope.editModel.t_product_id === '') {
                     alert('请选择设备对应产品');
                     return;
@@ -224,7 +224,7 @@ app.controller('devicesCtl', function ($scope, $http) {
                     alert('请填写设备编号');
                     return;
                 }
-                $http.post('/admin/editDevice/', $scope.editModel).success(function (d) {
+                $http.post(context + '/admin/editDevice/', $scope.editModel).success(function (d) {
                     if (d) {
                         alert('保存成功');
                         $scope.loadData(true);
@@ -241,7 +241,7 @@ app.controller('devicesCtl', function ($scope, $http) {
     };
     $scope.delete = function (e) {
         layer.confirm('确定删除？', function (index) {
-            $http.post('/admin/deleteDevice/' + e.t_id).success(function (d) {
+            $http.post(context + '/admin/deleteDevice/' + e.t_id).success(function (d) {
                 if (d) {
                     alert('删除成功');
                     $scope.loadData(true);
@@ -253,19 +253,17 @@ app.controller('devicesCtl', function ($scope, $http) {
         });
     };
     $scope.addModelProductChange = function () {
-        console.log('add')
-        $http.post('/admin/getSoftwaresForList/' + $scope.addModel.t_product_id).success(function (d) {
+        $http.post(context + '/admin/getSoftwaresForList/' + $scope.addModel.t_product_id).success(function (d) {
             $scope.softwareList = d.data;
         })
     };
     $scope.editModelProductChange = function () {
-        console.log('edit')
-        $http.post('/admin/getSoftwaresForList/' + $scope.editModel.t_product_id).success(function (d) {
+        $http.post(context + '/admin/getSoftwaresForList/' + $scope.editModel.t_product_id).success(function (d) {
             $scope.softwareList = d.data;
         })
     };
     $scope.init = function () {
-        $http.post('/admin/getProductsForList').success(function (d) {
+        $http.post(context + '/admin/getProductsForList').success(function (d) {
             $scope.productList = d.data;
         })
         $scope.pageModel = {
@@ -291,7 +289,7 @@ app.controller('softwaresCtl', function ($scope, $http) {
         if (reset) {
             $scope.pageModel.pageIndex = 1;
         }
-        $http.post('/admin/getSoftwares/' +
+        $http.post(context + '/admin/getSoftwares/' +
             $scope.pageModel.pageIndex + '/' +
             $scope.pageModel.pageSize + '/' +
             $scope.searchModel.productId + '/' +
@@ -347,7 +345,7 @@ app.controller('softwaresCtl', function ($scope, $http) {
                 formData.append('file', files[0]);
                 $.ajax({
                     type: "POST",
-                    url: '/admin/addSoftware',
+                    url: context + '/admin/addSoftware',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -383,7 +381,7 @@ app.controller('softwaresCtl', function ($scope, $http) {
                     alert('请填写软件版本');
                     return;
                 }
-                $http.post('/admin/editSoftware/', $scope.editModel).success(function (d) {
+                $http.post(context + '/admin/editSoftware/', $scope.editModel).success(function (d) {
                     if (d) {
                         alert('保存成功');
                         $scope.loadData(true);
@@ -400,7 +398,7 @@ app.controller('softwaresCtl', function ($scope, $http) {
     };
     $scope.delete = function (e) {
         layer.confirm('确定删除？', function (index) {
-            $http.post('/admin/deleteSoftware/' + e.t_id).success(function (d) {
+            $http.post(context + '/admin/deleteSoftware/' + e.t_id).success(function (d) {
                 if (d) {
                     alert('删除成功');
                     $scope.loadData(true);
@@ -412,7 +410,7 @@ app.controller('softwaresCtl', function ($scope, $http) {
         });
     };
     $scope.init = function () {
-        $http.post('/admin/getProductsForList').success(function (d) {
+        $http.post(context + '/admin/getProductsForList').success(function (d) {
             $scope.productList = d.data;
         })
         $scope.pageModel = {
@@ -437,7 +435,7 @@ app.controller('logsCtl', function ($scope, $http) {
         if (reset) {
             $scope.pageModel.pageIndex = 1;
         }
-        $http.post('/admin/getLogs/' +
+        $http.post(context + '/admin/getLogs/' +
             $scope.pageModel.pageIndex + '/' +
             $scope.pageModel.pageSize + '/' +
             $scope.searchModel.productId + '/' +
@@ -463,13 +461,12 @@ app.controller('logsCtl', function ($scope, $http) {
         });
     };
     $scope.searchModelProductChange = function () {
-        console.log('add')
-        $http.post('/admin/getSoftwaresForList/' + $scope.searchModel.productId).success(function (d) {
+        $http.post(context + '/admin/getSoftwaresForList/' + $scope.searchModel.productId).success(function (d) {
             $scope.softwareList = d.data;
         })
     };
     $scope.init = function () {
-        $http.post('/admin/getProductsForList').success(function (d) {
+        $http.post(context + '/admin/getProductsForList').success(function (d) {
             $scope.productList = d.data;
         })
         $scope.pageModel = {
