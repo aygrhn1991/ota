@@ -15,7 +15,7 @@ app.config(function ($routeProvider) {
         })
         .when('/logs', {
             templateUrl: '/admin/logs',
-            controller: 'softwaresCtl'
+            controller: 'logsCtl'
         })
         .when('/list/:id', {
             templateUrl: 'views/route/detail.html',
@@ -427,6 +427,59 @@ app.controller('softwaresCtl', function ($scope, $http) {
             t_product_id: null,
             t_version: null,
             t_remarks: null
+        };
+        $scope.loadData(true);
+    };
+    $scope.init();
+});
+app.controller('logsCtl', function ($scope, $http) {
+    $scope.loadData = function (reset) {
+        if (reset) {
+            $scope.pageModel.pageIndex = 1;
+        }
+        $http.post('/admin/getLogs/' +
+            $scope.pageModel.pageIndex + '/' +
+            $scope.pageModel.pageSize + '/' +
+            $scope.searchModel.productId + '/' +
+            $scope.searchModel.softwareId + '/' +
+            $scope.searchModel.key).success(function (d) {
+            $scope.list = d.data;
+            if (reset) {
+                $scope.makePage($scope.pageModel.pageSize, d.count);
+            }
+        })
+    };
+    $scope.makePage = function (pageSize, total) {
+        layui.laypage.render({
+            elem: 'page',
+            limit: pageSize,
+            count: total,
+            jump: function (obj, first) {
+                if (!first) {
+                    $scope.pageModel.pageIndex = obj.curr;
+                    $scope.loadData(false);
+                }
+            }
+        });
+    };
+    $scope.searchModelProductChange = function () {
+        console.log('add')
+        $http.post('/admin/getSoftwaresForList/' + $scope.searchModel.productId).success(function (d) {
+            $scope.softwareList = d.data;
+        })
+    };
+    $scope.init = function () {
+        $http.post('/admin/getProductsForList').success(function (d) {
+            $scope.productList = d.data;
+        })
+        $scope.pageModel = {
+            pageIndex: 1,
+            pageSize: 10
+        };
+        $scope.searchModel = {
+            productId: 0,
+            softwareId: 0,
+            key: ''
         };
         $scope.loadData(true);
     };

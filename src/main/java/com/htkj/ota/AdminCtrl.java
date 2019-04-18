@@ -235,4 +235,40 @@ public class AdminCtrl {
         int count = this.jdbc.update(sql, new Object[]{id});
         return count == 1;
     }
+
+    @RequestMapping(value = {"/getLogs/{pageIndex}/{pageSize}/{productId}/{softwareId}/{key}",
+            "/getLogs/{pageIndex}/{pageSize}/{productId}/{softwareId}"})
+    @ResponseBody
+    public DataModel getLogs(@PathVariable("pageIndex") int pageIndex,
+                             @PathVariable("pageSize") int pageSize,
+                             @PathVariable("productId") int productId,
+                             @PathVariable("softwareId") int softwareId,
+                             @PathVariable(value = "key", required = false) String key) {
+        String sql1 = "select count(*)";
+        String sql2 = "select tl.*,td.t_code device_code,ts.t_version software_version,tp.t_name product_name";
+        String sql = " from t_logs tl left join t_devices td on td.t_id=tl.t_device_id left join t_softwares ts on ts.t_id=tl.t_software_id left join t_products tp on tp.t_id=td.t_product_id where 1=1 ";
+        sql1 = sql1 + sql;
+        sql2 = sql2 + sql;
+        String where = "";
+        if (key != null && !key.isEmpty()) {
+            where = " and td.t_code like '%" + key + "%' ";
+            sql1 += where;
+            sql2 += where;
+        }
+        if (productId != 0) {
+            where = " and td.t_product_id=" + productId + " ";
+            sql1 += where;
+            sql2 += where;
+        }
+        if (softwareId != 0) {
+            where = " and td.t_software_id=" + softwareId + " ";
+            sql1 += where;
+            sql2 += where;
+        }
+        sql2 += " order by t_id desc ";
+        sql2 += " limit " + (pageIndex - 1) * pageSize + "," + pageSize;
+        int count = this.jdbc.queryForObject(sql1, Integer.class);
+        List<Map<String, Object>> data = this.jdbc.queryForList(sql2);
+        return new DataModel(count, data);
+    }
 }
