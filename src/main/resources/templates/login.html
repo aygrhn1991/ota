@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <script src="/ota/jquery/jquery.js"></script>
+</head>
+<body>
+<input type="text" id="account">
+<input type="password" id="password">
+<button id="btn">login</button>
+<script>
+    $(function () {
+        $('#btn').click(function () {
+            $.ajax({
+                type: "GET",
+                url: '/ota/auth/auth',
+                dataType: "json",
+                data: {
+                    account: $('#account').val(),
+                    password: $('#password').val()
+                },
+                success: function (d) {
+                    if (d) {
+                        window.location.href = '/ota/admin/index';
+                    } else {
+                        alert('登陆失败');
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
