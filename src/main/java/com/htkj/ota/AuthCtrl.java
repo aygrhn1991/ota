@@ -36,4 +36,11 @@ public class AuthCtrl {
         }
         return false;
     }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("auth");
+        return "redirect:/auth/login";
+    }
 }

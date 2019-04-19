@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>登陆</title>
+    <link rel="stylesheet" href="/ota/layui/css/layui.css">
+    <link rel="stylesheet" href="/ota/css/ota.css">
     <script src="/ota/angularjs/angular.js"></script>
     <script src="/ota/angularjs/angular-route.js"></script>
     <script src="/ota/js/ota.js"></script>
 </head>
 <body ng-app="app" ng-controller="loginCtrl">
-<input type="text" ng-model="authModel.account">
-<input type="password" ng-model="authModel.password">
-<button ng-click="auth()">auth</button>
+<div class="layui-row">
+    <div class="layui-col-md4 layui-col-md-offset4">
+        <form class="layui-form" style="margin-top:40%;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账号</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" ng-model="authModel.account">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" class="layui-input" ng-model="authModel.password">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" ng-click="auth()">登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
